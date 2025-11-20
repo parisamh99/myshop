@@ -35,7 +35,7 @@
     <div class="container">
       <nav class="js-mega-menu navbar-nav-wrap">
         <!-- Default Logo -->
-        <a class="navbar-brand" href="/index.html" aria-label="Front">
+        <a class="navbar-brand" href="{% url 'website:index' %}" aria-label="Front">
           <img class="navbar-brand-logo" src= "{% static 'svg/logos/logo.svg' %}" alt="Logo">
         </a>
         <!-- End Default Logo -->
@@ -60,7 +60,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link " href="/product-overview.html">لیست محصولات</a>
+              <a class="nav-link " href="{% url 'shop:product-grid' %}">لیست محصولات</a>
             </li>
 
             <li class="nav-item">
@@ -354,14 +354,14 @@
 
           <div class="mb-7">
             <!-- Form -->
-            <form>
+            <form action="{% url 'shop:product-grid' %}">
               <!-- Input Card -->
               <div class="input-card">
                 <div class="input-card-form">
-                  <input type="text" class="form-control form-control-lg" placeholder="جستجو محصولات"
+                  <input type="text" class="form-control form-control-lg" placeholder="جستجو محصولات" name="q"
                     aria-label="جستجو محصولات">
                 </div>
-                <button type="button" class="btn btn-primary btn-lg">جستجو کردن</button>
+                <button type="submit" class="btn btn-primary btn-lg">جستجو کردن</button>
               </div>
               <!-- End Input Card -->
             </form>
@@ -480,6 +480,7 @@
 
   <!-- JS Implementing Plugins -->
   <script src= "{% static 'js/vendor.min.js' %}"></script>
+  <script src= "{% static 'js/jquery.min.js' %}"></script>
 
   <!-- JS Front -->
   <script src= "{% static 'js/theme.min.js' %}"></script>
