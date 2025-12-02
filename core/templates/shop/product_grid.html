@@ -169,7 +169,7 @@
                   </div>
                   <span class="small">40</span>
                 </a>
-                <button type="button" class="btn btn-outline-primary btn-sm btn-transition rounded-pill">افزودن به سبد خرید</button>
+                <button type="button" class="btn btn-outline-primary btn-sm btn-transition rounded-pill" onclick="addToCart('{{ object.id }}')">افزودن به سبد خرید</button>
               </div>
             </div>
           </div>
@@ -241,18 +241,7 @@
     });
 </script>
 <script>
-document.getElementById("order-by-filter").addEventListener("change", function () {
-    let params = new URLSearchParams(window.location.search);
-    params.set("order_by", this.value);
-    window.location.search = params.toString();
-});
-
-document.getElementById("page-size-filter").addEventListener("change", function () {
-    let params = new URLSearchParams(window.location.search);
-    params.set("page_size", this.value);
-    window.location.search = params.toString();
-});
-$("order-by-filter").on("change", function () {
+$("#order-by-filter").on("change", function () {
     localStorage.setItem("order_by", $(this).val());
 
     let params = new URLSearchParams(window.location.search);
@@ -260,7 +249,7 @@ $("order-by-filter").on("change", function () {
     window.location.search = params.toString();
 });
 
-$("page-size-filter").on("change", function () {
+$("#page-size-filter").on("change", function () {
     localStorage.setItem("page_size", $(this).val());
 
     let params = new URLSearchParams(window.location.search);
@@ -269,5 +258,7 @@ $("page-size-filter").on("change", function () {
 });
 
 </script>
+
+
 
 {% endblock extra_js %}
