@@ -18,6 +18,7 @@ class ProductCategoryModel(models.Model):
 
 
 
+
 class ProductModel(models.Model):
     user = models.ForeignKey('accounts.User',on_delete=models.PROTECT)
     title = models.CharField(max_length=255)
@@ -47,6 +48,9 @@ class ProductModel(models.Model):
             discount_amount = (self.price * Decimal(self.discount_percent)) / 100
             return self.price - discount_amount
         return '{:,}'.format(round(self.price))
+    
+    def is_pulished(self):
+        return self.status == StatusProductType.publish.value
     
 
     

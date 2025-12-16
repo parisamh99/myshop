@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from dashboard.permissions import HasCustomerAccessPermission
 from django.contrib.auth import views as auth_view
 from django.contrib.messages.views import SuccessMessageMixin
-from .forms import  CustomerSecurityEditForm,CustomerProfileEditForm
+from ..forms import  CustomerSecurityEditForm,CustomerProfileEditForm
 from accounts.models import Profile
 from django.contrib import messages
 
