@@ -91,18 +91,18 @@ class CartSession:
         cart,created = CartModel.objects.get_or_create(user=user)
         cart_items = CartItemModel.objects.filter(cart=cart)
         for cart_item in cart_items:
-            for item in self.cart:
-                if str(cart_item["product_id"]) == item["product_id"]:
-                    cart_item["quantity"] == item["quantity"]
+            for item in self.cart['items']:
+                if str(cart_item.product.id) == item["product_id"]:
+                    cart_item.quantity = item["quantity"]
                     cart_item.save()
                     break
-                else:
-                    new_item = {
-                       "product_id":cart_item["product_id"],
-                       "quantity":cart_item["quantity"]
-                    }
-                    self.cart["items"].append(new_item)
-                    self.merge_session_cart_in_db(user)
+            else:
+                new_item = {
+                    "product_id":str(cart_item.product.id),
+                    "quantity":cart_item.quantity
+                }
+                self.cart["items"].append(new_item)
+            self.merge_session_cart_in_db(user)
             self.save()
 
 
