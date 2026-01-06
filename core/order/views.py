@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.generic import FormView,TemplateView,View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .permissions import HasCustomerAccessPermission
@@ -6,7 +6,7 @@ from order.models import UserAddressModel,OrderModel,OrderItemModel,CouponModel
 from cart.models import CartModel
 from order.forms import CheckOutForm
 from cart.cart import CartSession
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
 from decimal import Decimal
 from django.http import JsonResponse
 from django.utils import timezone
@@ -14,10 +14,11 @@ from django.utils import timezone
 
 
 
+
 class OrderCheckoutView(LoginRequiredMixin,HasCustomerAccessPermission,FormView):
     template_name = 'order/checkout.html'
     form_class = CheckOutForm
-    success_url = reverse_lazy('order:compeleted')
+    success_url = reverse_lazy('payment:request_payment')
 
     def form_valid(self, form):
      user = self.request.user
@@ -34,6 +35,7 @@ class OrderCheckoutView(LoginRequiredMixin,HasCustomerAccessPermission,FormView)
         city=address.city,
         zip_code=address.zip_code,
     )
+     
 
      for item in cart_items:
         OrderItemModel.objects.create(
@@ -61,7 +63,9 @@ class OrderCheckoutView(LoginRequiredMixin,HasCustomerAccessPermission,FormView)
      cart.cart_items.all().delete()
      CartSession(self.request.session).clear()
 
-     return super().form_valid(form)
+     #return super().form_valid(form)
+     return redirect(
+        reverse('payment:request_payment', kwargs={'order_id': order.id}))
 
     
     def form_invalid(self, form):

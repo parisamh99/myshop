@@ -40,7 +40,7 @@ class OrderModel(models.Model):
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     zip_code = models.IntegerField()
-
+    payment = models.ForeignKey('payment.Payment',on_delete=models.SET_NULL,null=True,blank=True)
     total_price = models.DecimalField(max_digits=10,default=0,decimal_places=2)
     status = models.IntegerField(choices=OrderStatusType.choices,default=OrderStatusType.pending.value)
     coupon = models.ForeignKey(CouponModel, on_delete=models.PROTECT, null=True, blank=True)
