@@ -32,6 +32,7 @@ class UserAddressModel(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
 
+
 class OrderModel(models.Model):
     user = models.ForeignKey("accounts.User", on_delete=models.PROTECT)
 
@@ -47,6 +48,9 @@ class OrderModel(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["-created_date"]
+
     
     def calculate_total_price(self):
      total = sum(
@@ -60,6 +64,17 @@ class OrderModel(models.Model):
         discount = (self.total_price * Decimal(self.coupon.discount_percent)) / Decimal('100')
         return self.total_price - discount
      return self.total_price
+    
+    def get_status(self):
+       return {
+          "id": self.status,
+          "title": OrderStatusType(self.status).name,
+          "lable":OrderStatusType(self.status).label
+       }
+    
+
+    def get_full_address(self):
+       return f"{self.state},{self.city},{self.address}"
 
 
 
